@@ -1,0 +1,183 @@
+{
+  "project": "agentic-rag-platform",
+  "corpus_version": "v1",
+  "corpus_chunks": 10000,
+  "evaluation_questions": 300,
+  "abstention_questions": 40,
+  "embedder": "sentence-transformers/all-MiniLM-L6-v2",
+  "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "seed": 7,
+  "threshold": {
+    "abstain_threshold": -3.6292,
+    "dev_unanswerable_abstain_rate": 1.0,
+    "dev_answerable_keep_rate": 0.9556,
+    "dev_questions": 110
+  },
+  "retrieval": {
+    "vector_only": {
+      "recall@5": 0.9417,
+      "precision@5": 0.2233,
+      "mrr": 0.8784,
+      "p95_retrieval_ms": 25.6723,
+      "mean_retrieval_ms": 18.3517,
+      "questions": 300,
+      "by_type": {
+        "compound": {
+          "recall@5": 0.875,
+          "mrr": 0.9639
+        },
+        "hybrid": {
+          "recall@5": 0.9875,
+          "mrr": 0.975
+        },
+        "lexical": {
+          "recall@5": 0.925,
+          "mrr": 0.7994
+        },
+        "paraphrase": {
+          "recall@5": 0.9625,
+          "mrr": 0.7967
+        }
+      }
+    },
+    "bm25_only": {
+      "recall@5": 0.75,
+      "precision@5": 0.1847,
+      "mrr": 0.7422,
+      "p95_retrieval_ms": 9.0294,
+      "mean_retrieval_ms": 6.1394,
+      "questions": 300,
+      "by_type": {
+        "compound": {
+          "recall@5": 0.8667,
+          "mrr": 1.0
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "mrr": 0.9938
+        },
+        "lexical": {
+          "recall@5": 1.0,
+          "mrr": 1.0
+        },
+        "paraphrase": {
+          "recall@5": 0.1625,
+          "mrr": 0.0394
+        }
+      }
+    },
+    "hybrid_bm25_vector": {
+      "recall@5": 0.8867,
+      "precision@5": 0.216,
+      "mrr": 0.84,
+      "p95_retrieval_ms": 22.4229,
+      "mean_retrieval_ms": 15.9361,
+      "questions": 300,
+      "by_type": {
+        "compound": {
+          "recall@5": 0.9667,
+          "mrr": 0.975
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "mrr": 1.0
+        },
+        "lexical": {
+          "recall@5": 0.9875,
+          "mrr": 0.9812
+        },
+        "paraphrase": {
+          "recall@5": 0.6125,
+          "mrr": 0.4375
+        }
+      }
+    },
+    "hybrid_cross_encoder": {
+      "recall@5": 0.99,
+      "precision@5": 0.2367,
+      "mrr": 0.9688,
+      "p95_retrieval_ms": 53.0983,
+      "mean_retrieval_ms": 42.6888,
+      "questions": 300,
+      "by_type": {
+        "compound": {
+          "recall@5": 0.9667,
+          "mrr": 0.9833
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "mrr": 1.0
+        },
+        "lexical": {
+          "recall@5": 1.0,
+          "mrr": 1.0
+        },
+        "paraphrase": {
+          "recall@5": 0.9875,
+          "mrr": 0.8956
+        }
+      }
+    },
+    "agentic_graph": {
+      "recall@5": 0.9317,
+      "precision@5": 0.2133,
+      "mrr": 0.9472,
+      "p95_retrieval_ms": 283.0296,
+      "mean_retrieval_ms": 116.6491,
+      "questions": 300,
+      "by_type": {
+        "compound": {
+          "recall@5": 0.675,
+          "mrr": 0.8753
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "mrr": 1.0
+        },
+        "lexical": {
+          "recall@5": 1.0,
+          "mrr": 1.0
+        },
+        "paraphrase": {
+          "recall@5": 0.9875,
+          "mrr": 0.8956
+        }
+      }
+    }
+  },
+  "answers": {
+    "llm_only": {
+      "relevance_f1": 0.0353,
+      "groundedness": 0.0,
+      "unsupported_rate": 1.0,
+      "abstain_rate": 0.0,
+      "p95_e2e_ms": 0.0006,
+      "mean_e2e_ms": 0.0004,
+      "questions": 340
+    },
+    "rag_unvalidated": {
+      "relevance_f1": 0.4292,
+      "groundedness": 0.7207,
+      "unsupported_rate": 1.0,
+      "abstain_rate": 0.0,
+      "p95_e2e_ms": 48.833,
+      "mean_e2e_ms": 26.2438,
+      "questions": 340
+    },
+    "agentic_rag": {
+      "relevance_f1": 0.5274,
+      "groundedness": 1.0,
+      "unsupported_rate": 0.0,
+      "abstain_rate": 0.1529,
+      "p95_e2e_ms": 88.1959,
+      "mean_e2e_ms": 55.1778,
+      "questions": 340
+    }
+  },
+  "ragas": {
+    "status": "skipped",
+    "reason": "OPENAI_API_KEY is not set. Recall@K, Precision@K, MRR, lexical groundedness, and answer relevance are still computed. Install the eval extra and set a key to add the RAGAS LLM judge."
+  },
+  "notes": "Synthetic curated policies. Retrieval metrics use held-out questions with known chunk ids. The abstention threshold is selected on a disjoint development split. Groundedness is lexical overlap between the answer and cited evidence.",
+  "mlflow": "skipped:MlflowException"
+}

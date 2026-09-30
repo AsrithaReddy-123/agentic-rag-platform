@@ -288,7 +288,7 @@ GENERIC = [
     "Floor volunteers in {anchor} organize a monthly supplies count. No policy is changed there.",
 ]
 
-FAKE_PLACES = ["Atlantis", "Mars", "Olympus", "Narnia", "El Dorado", "Avalon", "Hyperion", "Zarmina"]
+FAKE_PLACES = [f"Zone{index}" for index in range(40)]
 
 
 def _value_for(kind: Kind, slug: str) -> int:
