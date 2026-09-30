@@ -81,6 +81,7 @@ class PgVectorStore:
             conn.commit()
 
     def upsert(self, chunks: list[Chunk]) -> None:
+        from pgvector import Vector
         from psycopg.types.json import Json
 
         vectors = self.embedder.encode([chunk.text for chunk in chunks])
@@ -96,13 +97,15 @@ class PgVectorStore:
                             metadata = EXCLUDED.metadata,
                             embedding = EXCLUDED.embedding
                         """,
-                        (chunk.id, chunk.text, Json(chunk.metadata), vector.tolist()),
+                        (chunk.id, chunk.text, Json(chunk.metadata), Vector(vector.tolist())),
                     )
             conn.commit()
 
     def search(self, query: str, k: int = 5, filters: dict[str, str] | None = None) -> list[dict]:
+        from pgvector import Vector
+
         filters = filters or {}
-        query_vec = self.embedder.encode([query])[0].tolist()
+        query_vec = Vector(self.embedder.encode([query])[0].tolist())
         where = []
         params: list[object] = [query_vec]
         for key, value in filters.items():
