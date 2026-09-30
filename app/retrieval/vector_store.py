@@ -60,6 +60,8 @@ class PgVectorStore:
         from pgvector.psycopg import register_vector
 
         conn = psycopg.connect(self.dsn)
+        conn.execute("CREATE EXTENSION IF NOT EXISTS vector")
+        conn.commit()
         register_vector(conn)
         return conn
 
